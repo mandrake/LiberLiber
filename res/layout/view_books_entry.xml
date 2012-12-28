@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:id="@+id/book_entry_text" 
+        android:textSize="28dip" />
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        <Button 
+            android:id="@+id/book_entry_pdf"
+            android:text="pdf"
+            android:onClick="downloadPDF"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="invisible" />
+        
+        <Button 
+            android:id="@+id/book_entry_html"
+            android:text="html"
+            android:onClick="downloadHTML"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="invisible"  />
+        
+        <Button 
+            android:id="@+id/book_entry_htmlzip"
+            android:text="htmlzip"
+            android:onClick="downloadHTMLZIP"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:visibility="invisible" />
+        
+        <Button 
+            android:id="@+id/book_entry_rtfzip"
+            android:text="rtfzip"
+            android:onClick="downloadRTFZIP"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="invisible" />
+        
+        <Button 
+            android:id="@+id/book_entry_txtzip"
+            android:text="txtzip"
+            android:onClick="downloadTXTZIP"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="invisible" />
+        
+    </LinearLayout>
+
+</LinearLayout>

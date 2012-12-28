@@ -9,7 +9,7 @@ import android.view.View;
 public class MainActivity extends Activity {
     
     public void viewBooks(View v) {
-        Intent i = new Intent(this, ViewBooksActivity.class);
+        Intent i = new Intent(this, ViewAuthorsActivity.class);
         startActivity(i);
     }
     

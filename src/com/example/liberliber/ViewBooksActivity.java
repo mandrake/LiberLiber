@@ -7,7 +7,6 @@ import java.util.HashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
@@ -15,50 +14,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.ProgressBar;
 
 public class ViewBooksActivity extends ListActivity {
-    private ListView mListView;
+    private ProgressBar mProgressBar;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_books);
         
-        mListView = getListView();
+        mProgressBar = (ProgressBar)findViewById(R.id.view_books_progbar);
+        mProgressBar.setVisibility(View.VISIBLE);
         
-        ParseAuthors pa = new ParseAuthors();
-        pa.execute();
-        try {
-            ListAdapter la = new SimpleAdapter(this, pa.get(),
-                   android.R.layout.simple_list_item_1, new String[] {"name"},
-                   new int[] {android.R.id.text1});
-            mListView.setAdapter(la);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-    }
-    
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        try {
-            HashMap<String, String> m = (HashMap<String, String>)l.getAdapter().getItem(position);
-            ParseBooks pb = new ParseBooks();
-            pb.execute(m.get("url"));
-            
-            ListAdapter la = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                    pb.get());
-            l.setAdapter(la);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        ParseBooks pb = new ParseBooks();
+        pb.execute(getIntent().getExtras().getString("url"));
     }
     
     @Override
@@ -67,10 +38,32 @@ public class ViewBooksActivity extends ListActivity {
         return true;
     }
     
-    private class ParseBooks extends AsyncTask<String, Void, ArrayList<String>> {
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        
+        
+    }
+
+    private class ParseBooks extends AsyncTask
+        <String, Void, ArrayList<HashMap<String, String>>> {
+        
         @Override
-        protected ArrayList<String> doInBackground(String... params) {
-            ArrayList<String> books = new ArrayList<String>();
+        protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
+            super.onPostExecute(result);
+            /* ListAdapter la = new SimpleAdapter(ViewBooksActivity.this, result,
+                    R.layout.view_books_entry, new String[] {"title"},
+                    new int[] { R.id.book_entry_text }); */
+            BookEntryAdapter la = new BookEntryAdapter(ViewBooksActivity.this, result,
+                    R.layout.view_books_entry);
+            getListView().setAdapter(la);
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+        
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(String... params) {
+            ArrayList<HashMap<String, String>> books = new ArrayList<HashMap<String, String>>();
+            
             try {
                 URL url = new URL(params[0]);
                 Document doc = Jsoup.parse(url, 5000);
@@ -81,9 +74,33 @@ public class ViewBooksActivity extends ListActivity {
                 e = e.getElementsByTag("tr").get(1);
                 e = e.getElementsByTag("td").get(1);
                 
-                for (Element currbook : e.getElementsByTag("table")) { 
-                    Element x = currbook.getAllElements().first(); 
-                    books.add(x.getAllElements().first().getAllElements().get(2).text());
+                for (Element currbook : e.getElementsByTag("table")) {
+                    HashMap<String, String> m = new HashMap<String, String>();
+                    
+                    Element content = currbook.getElementsByTag("tbody").first(); // tbody
+                    
+                    Element trTitle = content.getElementsByTag("tr").first();
+                    Element trBooks = content.getElementsByTag("tr").get(2);
+                    
+                    Element tdTitle = trTitle.getElementsByTag("td").get(2);
+                    Element tdBooks = trBooks.getElementsByTag("td").get(1);
+                    
+                    m.put("title", tdTitle.text());
+                    
+                    for (Element link : tdBooks.getElementsByTag("a")) {
+                        Log.w("IMGROBA", link.html());
+                        String fileUrl = link.absUrl("href");
+                        Element img = link.getElementsByTag("img").first();
+                        String imgSrc = img.attr("src");
+                        
+                        if (imgSrc.matches(".*ebook_pdf_free.*")) m.put("pdf", fileUrl);
+                        if (imgSrc.matches(".*ebook_html_free.*")) m.put("html", fileUrl);
+                        if (imgSrc.matches(".*ebook_htmlzip_free.*")) m.put("htmlzip", fileUrl);
+                        if (imgSrc.matches(".*ebook_rtfzip_free.*")) m.put("rtfzip", fileUrl);
+                        if (imgSrc.matches(".*ebook_txtzip_free.*")) m.put("txtzip", fileUrl);
+                    }
+                    
+                    books.add(m);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,48 +108,6 @@ public class ViewBooksActivity extends ListActivity {
             
             return books;
         }
-    }
-    
-    private class ParseAuthors extends AsyncTask
-        <Void, Void, ArrayList<HashMap<String, String>>> {
-
-        @Override
-        protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
-            //ArrayList<String> authors = new ArrayList<String>();
-            ArrayList<HashMap<String, String>> authors =
-                    new ArrayList<HashMap<String, String>>();
-            try {
-                char l = 'a';
-                while (l <= 'a') {
-                    URL url = new URL("http://www.liberliber.it/libri/" + l + "/index.htm");
-                    Document doc = Jsoup.parse(url, 5000);
-                    
-                    Element e = doc.getElementById("riga02_colonna02");
-                    e = e.getElementsByClass("contenuto_cornice").first();
-                    e = e.getElementsByTag("tbody").first();
-                    e = e.getElementsByTag("tr").get(1);
-                    e = e.getElementsByTag("td").get(1);
-                    e = e.getElementsByTag("ul").first();
-                    
-                    for (Element curr : e.getElementsByTag("li")) {
-                        HashMap<String, String> m = new HashMap<String, String>();
-                        Element el = curr.getAllElements().first();
-                        
-                        m.put("name", el.text());
-                        m.put("url", el.unwrap().absUrl("href"));
-                        Log.w("ASDFCURR", "curr url: " + m.get("url"));
-                        authors.add(m);
-                    }
-                    
-                    l++;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            return authors;
-        }
-        
     }
     
 }
