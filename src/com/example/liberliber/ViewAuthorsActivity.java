@@ -21,19 +21,21 @@ import android.widget.SimpleAdapter;
 
 public class ViewAuthorsActivity extends ListActivity {
     private ListView mListView;
+    private String mType;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_books);
+        setContentView(R.layout.activity_view_authors);
         
         mListView = getListView();
+        mType = getIntent().getExtras().getString("type");
         
         ParseAuthors pa = new ParseAuthors();
         pa.execute();
         try {
             ListAdapter la = new SimpleAdapter(this, pa.get(),
-                   android.R.layout.simple_list_item_1, new String[] {"name"},
+                   android.R.layout.simple_list_item_1, new String[] {"author"},
                    new int[] {android.R.id.text1});
             mListView.setAdapter(la);
         }
@@ -50,8 +52,10 @@ public class ViewAuthorsActivity extends ListActivity {
         @SuppressWarnings("unchecked")
         HashMap<String, String> m = (HashMap<String, String>)l.getAdapter().getItem(position);
 
-        Intent intent = new Intent(this, ViewBooksActivity.class);
+        Intent intent = new Intent(this, ViewEntriesActivity.class);
         intent.putExtra("url", m.get("url"));
+        intent.putExtra("type", mType);
+        intent.putExtra("author", m.get("author"));
         startActivity(intent);
     }
     
@@ -66,13 +70,17 @@ public class ViewAuthorsActivity extends ListActivity {
 
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
-            //ArrayList<String> authors = new ArrayList<String>();
             ArrayList<HashMap<String, String>> authors =
                     new ArrayList<HashMap<String, String>>();
             try {
+                String dir = null;
+                if (mType.equals("book")) dir = "libri";
+                if (mType.equals("audiobook")) dir = "audiolibri";
+                if (mType.equals("music")) dir = "musica";
+                
                 char l = 'a';
                 while (l <= 'a') {
-                    URL url = new URL("http://www.liberliber.it/libri/" + l + "/index.htm");
+                    URL url = new URL("http://www.liberliber.it/" + dir + "/" + l + "/index.htm");
                     Document doc = Jsoup.parse(url, 5000);
                     
                     Element e = doc.getElementById("riga02_colonna02");
@@ -86,7 +94,7 @@ public class ViewAuthorsActivity extends ListActivity {
                         HashMap<String, String> m = new HashMap<String, String>();
                         Element el = curr.getAllElements().first();
                         
-                        m.put("name", el.text());
+                        m.put("author", el.text());
                         m.put("url", el.unwrap().absUrl("href"));
 
                         authors.add(m);

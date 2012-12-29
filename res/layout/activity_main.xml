@@ -10,12 +10,39 @@
         android:layout_centerHorizontal="true"-->
 
     <Button
+        android:id="@+id/main_btn_books"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="viewBooks"
         android:text="@string/button_viewBooks"
         android:layout_centerHorizontal="true" 
         android:layout_marginTop="20dp" />
+    
+    <Button
+        android:id="@+id/main_btn_audiobooks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_viewAudioBooks"
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp" 
+        android:layout_below="@id/main_btn_books"/>
+    
+    <Button
+        android:id="@+id/main_btn_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_viewMusic"
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/main_btn_audiobooks" />
+    
+<!--     <Button -->
+<!--         android:id="@+id/main_btn_video" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:text="@string/button_viewVideo" -->
+<!--         android:layout_centerHorizontal="true"  -->
+<!--         android:layout_marginTop="20dp" -->
+<!--         android:layout_below="@id/main_btn_music" /> -->
     
     <!-- TextView
         android:layout_width="wrap_content"

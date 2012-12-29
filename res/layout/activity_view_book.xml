@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/book_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textSize="35dp"
+        android:text="Unknown Title" />
+    
+    <TextView
+        android:id="@+id/book_view_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_below="@id/book_view_title"
+        android:text="Unknown Author" />
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/book_view_author">
+        
+        <ImageView 
+        	android:id="@+id/book_view_imgpdf"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="pdf"
+        	android:src="@drawable/pdf"
+        	android:alpha="0.3" />
+        
+		<ImageView 
+        	android:id="@+id/book_view_imghtml"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="html"
+        	android:src="@drawable/htm"
+        	android:alpha="0.3" />
+		
+		<ImageView 
+        	android:id="@+id/book_view_imghtmlzip"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="htmlzip" 
+        	android:src="@drawable/htmzip"
+        	android:alpha="0.3" />
+		
+		<ImageView 
+        	android:id="@+id/book_view_imgrtfzip"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="rtfzip"
+        	android:src="@drawable/rtfzip"
+        	android:alpha="0.3" />
+		
+		<ImageView 
+        	android:id="@+id/book_view_imgtxtzip"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="txtzip"
+        	android:src="@drawable/txtzip"
+        	android:alpha="0.3" />
+    </LinearLayout>
+
+</RelativeLayout>
