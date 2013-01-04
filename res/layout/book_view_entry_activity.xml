@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/low_contrast_linen_repeat" >
+
+    <TextView
+        android:id="@+id/book_view_entry_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textSize="28sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="Unknown Title" />
+    
+    <TextView
+        android:id="@+id/book_view_entry_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/book_view_entry_title"
+        android:text="Unknown Author" />
+    
+	<ImageView
+	    android:id="@+id/book_view_entry_separator"
+	    android:layout_below="@id/book_view_entry_author"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:src="@android:drawable/divider_horizontal_dark"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:scaleType="fitXY"
+	    android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	    android:paddingBottom="2dp"
+	    android:paddingTop="2dp"
+	    android:layout_marginTop="5dp"
+	    android:layout_marginBottom="10dp"/>
+    
+<!--     <View -->
+<!--         android:id="@+id/book_view_entry_separator" -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="1dp" -->
+<!--         android:layout_below="@id/book_view_entry_author" -->
+<!--         android:background="@android:color/darker_gray" -->
+<!--         android:layout_marginTop="5dp" -->
+<!--         android:layout_marginBottom="10dp"/> -->
+    
+    <LinearLayout
+        android:layout_below="@id/book_view_entry_separator"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+        
+        <ImageView 
+        	android:id="@+id/book_view_imgpdf"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="pdf"
+        	android:src="@drawable/pdf_512"
+        	android:alpha="0.3" />
+        
+		<ImageView 
+        	android:id="@+id/book_view_imghtml"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="html"
+        	android:src="@drawable/html_512"
+        	android:alpha="0.3" />
+		
+		<ImageView 
+        	android:id="@+id/book_view_imghtmlzip"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="htmlzip" 
+        	android:src="@drawable/htmlzip_512"
+        	android:alpha="0.3" />
+		
+		<ImageView 
+        	android:id="@+id/book_view_imgrtfzip"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="rtfzip"
+        	android:src="@drawable/rtfzip_512"
+        	android:alpha="0.3" />
+		
+		<ImageView 
+        	android:id="@+id/book_view_imgtxtzip"
+        	android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:contentDescription="txtzip"
+        	android:src="@drawable/txtzip_512"
+        	android:alpha="0.3" />
+    </LinearLayout>
+
+	<ProgressBar 
+	    android:id="@+id/book_view_progbar"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true" />
+
+</RelativeLayout>

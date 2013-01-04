@@ -1,56 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    android:background="@drawable/low_contrast_linen_repeat" >
 
-    <!-- LinearLayout 
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <ImageView 
+	    android:src="@drawable/liberliber"
+	    android:id="@+id/main_image_liber" 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:contentDescription="liberliber" />
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"-->
-
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/main_image_liber" >
+    
+	<LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_centerVertical="true">
+	    
     <Button
         android:id="@+id/main_btn_books"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/glyph_book"
         android:text="@string/button_viewBooks"
-        android:layout_centerHorizontal="true" 
-        android:layout_marginTop="20dp" />
+        android:onClick="btnBook" />
     
     <Button
         android:id="@+id/main_btn_audiobooks"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/glyph_headphones"
         android:text="@string/button_viewAudioBooks"
-        android:layout_centerHorizontal="true" 
-        android:layout_marginTop="20dp" 
-        android:layout_below="@id/main_btn_books"/>
+        android:layout_marginTop="5dp"
+        android:onClick="btnAudioBook" />
     
     <Button
         android:id="@+id/main_btn_music"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/button_viewMusic"
-        android:layout_centerHorizontal="true" 
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/main_btn_audiobooks" />
-    
-<!--     <Button -->
-<!--         android:id="@+id/main_btn_video" -->
-<!--         android:layout_width="wrap_content" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:text="@string/button_viewVideo" -->
-<!--         android:layout_centerHorizontal="true"  -->
-<!--         android:layout_marginTop="20dp" -->
-<!--         android:layout_below="@id/main_btn_music" /> -->
-    
-    <!-- TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/padding_medium"
-        android:text="@string/hello_world"
-        tools:context=".MainActivity" /-->
-
+        android:drawableLeft="@drawable/glyph_music"
+        android:text="@string/button_viewMusic" 
+        android:layout_marginTop="5dp"
+        android:onClick="btnMusic" />
+    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

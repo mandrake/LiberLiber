@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/audiobook_view_entry_left">
+    <ImageView 
+        android:id="@+id/audiobook_view_entry_listentry_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/glyph_note" />
+    <TextView 
+        android:id="@+id/audiobook_view_entry_listentry_caption"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=".mp3"
+        android:textSize="10sp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/audiobook_view_entry_listentry_icon"/>
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/audiobook_view_entry_listentry_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textSize="23dip" 
+        android:text="ASDFASDFSD"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/audiobook_view_entry_left" />
+
+</RelativeLayout>

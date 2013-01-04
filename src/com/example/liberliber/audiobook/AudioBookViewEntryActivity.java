@@ -1,4 +1,4 @@
-package com.example.liberliber;
+package com.example.liberliber.audiobook;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,36 +6,42 @@ import java.util.HashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class ViewAudioBookActivity extends Activity {
+import com.example.liberliber.R;
+
+public class AudioBookViewEntryActivity extends Activity {
     private TextView mTextTitle, mTextAuthor;
     private ListView mList;
+    private ProgressBar mProgressBar;
     
     private String author, title, html, baseUrl;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_audio_book);
+        setContentView(R.layout.audiobook_view_entry_activity);
         
-        mTextTitle = (TextView)findViewById(R.id.audiobook_view_title);
-        mTextAuthor = (TextView)findViewById(R.id.audiobook_view_author);
+        mProgressBar = (ProgressBar)findViewById(R.id.audiobook_view_entry_progbar);
+        mProgressBar.setVisibility(View.VISIBLE);
         
-        mList = (ListView)findViewById(R.id.audiobook_view_list);
+        mTextTitle = (TextView)findViewById(R.id.audiobook_view_entry_title);
+        mTextAuthor = (TextView)findViewById(R.id.audiobook_view_entry_author);
+        
+        mList = (ListView)findViewById(R.id.audiobook_view_entry_list);
         
         Bundle extras = getIntent().getExtras();
         
@@ -45,7 +51,7 @@ public class ViewAudioBookActivity extends Activity {
         baseUrl = extras.getString("baseurl");
         
         mTextTitle.setText(title);
-        mTextAuthor.setText(author);
+        mTextAuthor.setText("di " + author);
 
         ParseLinks pl = new ParseLinks();
         pl.execute(html);
@@ -53,6 +59,7 @@ public class ViewAudioBookActivity extends Activity {
         mList.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> listview, View v, int position,
                     long id) {
+                @SuppressWarnings("unchecked")
                 HashMap<String, String> m = (HashMap<String, String>)mList.getAdapter().getItem(position);
                 
                 Intent i = new Intent(android.content.Intent.ACTION_VIEW);
@@ -68,11 +75,18 @@ public class ViewAudioBookActivity extends Activity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
             super.onPostExecute(result);
             
-            mList.setAdapter(
-                    new SimpleAdapter(ViewAudioBookActivity.this, result,
+            Log.w("ASDFASFW", "size: " + result.size());
+            
+            AudioBookViewListAdapter a;
+            a = new AudioBookViewListAdapter(AudioBookViewEntryActivity.this, result);
+            
+            mList.setAdapter(a);
+            /* mList.setAdapter(
+                    new SimpleAdapter(AudioBookViewEntryActivity.this, result,
                             android.R.layout.simple_list_item_2,
                             new String[] {"text", "type"}, new int[] {android.R.id.text1, android.R.id.text2}
-                            ));
+                            )); */
+            mProgressBar.setVisibility(View.INVISIBLE);
         }
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(String... params) {
@@ -80,7 +94,7 @@ public class ViewAudioBookActivity extends Activity {
             
             try {
                 Document d = Jsoup.parseBodyFragment(params[0]);     
-                
+                Log.w("£", d.html());
                 for (Element e : d.body().getElementsByTag("ul")) {
                     for (Element e2 : e.getElementsByTag("li")) {
                         Element link = e2.getElementsByTag("a").first();

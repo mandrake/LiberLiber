@@ -1,4 +1,4 @@
-package com.example.liberliber;
+package com.example.liberliber.book;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,23 +8,27 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class ViewBookActivity extends Activity {
+import com.example.liberliber.R;
+
+public class BookViewEntryActivity extends Activity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_book);
+        setContentView(R.layout.book_view_entry_activity);
         
         TextView mTitle, mAuthor;
         
-        mTitle = (TextView)findViewById(R.id.book_view_title);
-        mAuthor = (TextView)findViewById(R.id.book_view_author);
+        mTitle = (TextView)findViewById(R.id.book_view_entry_title);
+        mAuthor = (TextView)findViewById(R.id.book_view_entry_author);
         
         ImageView mImgPdf, mImgHtml, mImgHtmlzip, mImgRtfzip, mImgTxtzip;
         mImgPdf = (ImageView)findViewById(R.id.book_view_imgpdf);
@@ -33,8 +37,14 @@ public class ViewBookActivity extends Activity {
         mImgRtfzip = (ImageView)findViewById(R.id.book_view_imgrtfzip);
         mImgTxtzip = (ImageView)findViewById(R.id.book_view_imgtxtzip);
         
+        ProgressBar mProgressBar = (ProgressBar)findViewById(R.id.book_view_progbar);
+        mProgressBar.setVisibility(View.VISIBLE);
+        
+        Log.w("ASDFAF", getIntent().getExtras().getString("title"));
+        Log.w("ASDFAF", getIntent().getExtras().getString("author"));
+        
         mTitle.setText(getIntent().getExtras().getString("title"));
-        mAuthor.setText(getIntent().getExtras().getString("author"));
+        mAuthor.setText("di " + getIntent().getExtras().getString("author"));
         
         String html, baseUrl;
         html = getIntent().getExtras().getString("html");
@@ -65,6 +75,8 @@ public class ViewBookActivity extends Activity {
                 }
             });
         }
+        
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
